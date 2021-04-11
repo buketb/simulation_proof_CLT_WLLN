@@ -1,25 +1,18 @@
 ---
-title: "Home Assignment 2"
+title: "Simulation"
 output: html_notebook
 ---
 
-* Buket Bozduman, stu220000
-* Name 2, stu...
-* Name 3, stu...
-* Name 4, stu...
-* Name 5, stu...
-
-## Problem 1 (4 points):
-No (advanced) statistics class is complete without the discussion of a Central Limit Theorem (CLT). Therefore, visualize convergence in distribution with the CLT as an example.
+## the discussion of a Central Limit Theorem (CLT). Therefore, visualized convergence in distribution with the CLT as an example.
 
 Let $\{X_n\}$ be a sequence off iid random variables with $E[X_i] = \mu$ and $Var[X_i] = \sigma^2 < \infty \hspace{5pt} \forall i$, then:
 \[
 \bar{X}_n = \frac{1}{n} \sum\limits_{i=1}^n X_i \overset{d}{\rightarrow} \mathcal{N} \left( \mu, \frac{\sigma^2}{n} \right)
 \]
 
-### a) Normal distribution
+### Normal distribution
 
-Write a function that simulates and returns $N_{MC}$ sample means with sample size $n$ for $X_i \sim \mathcal{N}(\mu, \sigma^2)$ where $\mu = 5, \sigma = 2$. The function's inputs shall be N_MC and n. *Hint:* In order to avoid a for loop, the function **rowMeans()** might be helpful.
+# a function that simulates and returns $N_{MC}$ sample means with sample size $n$ for $X_i \sim \mathcal{N}(\mu, \sigma^2)$ where $\mu = 5, \sigma = 2$. The function's inputs shall be N_MC and n.
 ```{r}
 
 
@@ -49,7 +42,7 @@ meansCLTNormal = function(NMC,n){
 # sd(sm)
 ```
 
-Plot the resulting means using histograms with Scott breaks for N_MC = c(15, 50, 1000), n = 100 in a 1x3 plot window and add the respective limiting Normal density for comparison.
+#Plot the resulting means using histograms with Scott breaks for N_MC = c(15, 50, 1000), n = 100 in a 1x3 plot window and add the respective limiting Normal density for comparison.
 
 ```{r}
 # Define input parameters
@@ -79,11 +72,11 @@ lines(x,dnorm(x,mean = 5,sd = sqrt(4/n)),col = 'red',lwd = 2)
 ```
 
 
-### b) Gamma distribution
+### Gamma distribution
 
-Repeat the previous steps for a Gamma distribution with $\alpha = 3, \beta = 2$. Check the formulary how to find the mean and the variance of a gamma distribution.
+#Repeat the previous steps for a Gamma distribution with $\alpha = 3, \beta = 2$. Check the formulary how to find the mean and the variance of a gamma distribution.
 
-Define the function simulating the new sample means
+#Define the function simulating the new sample means
 
 ```{r}
 #mean=alpha*beta
@@ -112,7 +105,7 @@ meansCLTGamma = function(NMC,n){
 # print((alpha*(beta^2))/n)
 ```
 
-Plot the histograms using your function for the same N_MC and n from a).
+#Plot the histograms using your function for the same N_MC and n :
 
 ```{r}
 # Define input parameters
@@ -126,17 +119,14 @@ x = seq(2.5,7.5,0.01)
 lines(x,dnorm(x,mean = 6,sd = sqrt((alpha*beta^2)/n)),col = 'red',lwd = 2)
 }
 ```
-Question: Why do we have convergence to the Normal distribution again even though we sample from a Gamma distribution?
 
-Answer:
 #The central limit theorem (CLT) says that, in many situations, independent random variables' sample means tend toward a normal distribution even if the original variables themselves are not normally distributed. Here is a proof of CLT. As the numbers of draws increase, we get close to theoretical mean and varince.
 
 #we draw iid samples from Normal and gamma, collecting their means as a result of simulation with different replications. All mean values are relative close to theoretical mean of Normal and Gamma. However, the main point is the distribution of the mean values. These mean values are (a kind of) new sample getting close to normal distribution as the replication increases.
 
 
 
-## Problem 2 (3.5 points):
-Visualize convergence in probability with Khinchin's WLLN as an example
+## Visualize convergence in probability with Khinchin's WLLN as an example
 
 Let $\{X_n\}$ be a sequence of iid random variables with finite expectations $E[X_i] = \mu \hspace{5pt} \forall i$, then
 \[
@@ -145,11 +135,10 @@ Let $\{X_n\}$ be a sequence of iid random variables with finite expectations $E[
 
 Convergence in probability requires that \[ \lim\limits_{n \rightarrow \infty} \Pr ( |X_n - X | \geq \epsilon) = 0 \] where $X_n = \bar{X}_n, X = E[X_i] = \mu$ in case of the WLLN.
 
-Write one function that:
 
-* simulates N_MC sample means of sample size n from the gamma distribution specified as in task 1 ($\alpha = 3, \beta = 2$)
-* and calculates $|\bar{X}_{N_{mc}} - E[X_i]|$
-* The inputs of the function are N_MC and n
+
+* simulates N_MC sample means of sample size n from the gamma distribution 
+
 
 ```{r}
 # mean=alpha*beta
@@ -214,27 +203,13 @@ all[i,] <- fraction(epsilon,N_MC,n[i])
 # legend("topleft", legend=c("10", "100","1000"),
 #        col=c("black","red", "blue"),lty = 1, cex=0.8,lwd = 1.4)
 ```
-Interpret the estimated probabilities with respect to what we required for convergence in probability.
 
-Answer:
 #The probability of having fractions between sample values and theoratical values significantly bigger than some epsilon is getting smaller and smaller/reaching to zero in increasing sample sizes (WLLN in the probability theory). That is to say, the sample values get close to the theoretical values as the sample sizes increase.
 
 # Since the convergence in distribution means that the probability for X_n to be in a given range is approximately equal to the probability that the value of X is in that range, provided n is sufficiently large, the distribution and the central moments of iid draw samples get close to the theoretical distribution and the central moments as increasing sample size n.
 
 
-Question: Why do we increase the number of Monte-Carlo replications N_MC when visualizing the CLT and sample size n in the case of the WLLN?
-the 
-Answer: 
 # WLLN is about one random draw sample. We aim to show the effect of increasing sample sizes. Increasing sample size gives us the sample moments(mean in this case) close to the theoratical ones. Bigger sample size, more approximation...
 
 # CLT is about the means of different random draw samples. We aim to show the effect of increasing replications. In the CLT, the sample size changes the theoretical variance value, but convergence is about the replications of random draw sampling, not about the sample size. More random drawn samples, more approximation...
 
-
-
-## Procedure
-
-* Try to solve the exercises and answer all questions, you are not allowed to use any additional R packages.
-* You can work in groups of up to 5 students. Make sure to include all names and stu-numbers in the header of this file!
-* Hand in your solution (as a Rmd file) via the upload section in the OLAT. The deadline is **07.02.2021 11:59 pm**
-* I won’t evaluate your assignment if your code is not running!
-* I might ask you to explain your code if I suspect that you did not write it on your own.
